@@ -6,10 +6,14 @@ const { optimize, loadConfig } = require("svgo");
 
 async function compileSvg(source) {
   return `
-  const wrapper = document.createElement("div");
-  wrapper.innerHTML = \`${source}\`;
-  const el = wrapper.firstChild;
-  export default () => el;
+  import { template, spread } from "solid-js/web";
+
+  const _tmpl$ = template(\`${source}\`, 0);
+  export default (props) => {
+    const _el$ = _tmpl$.cloneNode(true);
+    spread(_el$, props, true);
+    return _el$;
+  };
   `;
 }
 
