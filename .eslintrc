@@ -1,0 +1,24 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": false,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "script"
+  },
+  "rules": {
+    "keyword-spacing": 2,
+    "indent": [2, 2, {"VariableDeclarator": { "var": 2, "let": 2, "const": 3}, "SwitchCase": 1}],
+    "semi": [2, "always"],
+    "no-console": 0,
+    "space-before-blocks": 2,
+    "quotes": [2, "double", {"avoidEscape": true}],
+    "space-infix-ops": 2,
+    "strict": ["error", "global"],
+    "curly": ["error", "all"],
+    "prefer-const": "error"
+  }
+}
