@@ -14,7 +14,11 @@
 
 ```bash
 yarn add --dev vite-plugin-solid-svg
+```
 
+or
+
+```bash
 npm i -D vite-plugin-solid-svg
 ```
 
@@ -47,7 +51,7 @@ If you need to configure the `svgo` options, you can create a config file `svgo.
 ### Usage
 
 Import as a Solid.js component:
-```
+```js
 import MyIcon from './svgs/my-icon.svg';
 
 const App = () => {
@@ -63,7 +67,7 @@ export default App;
 ```
 
 Import as url:
-```
+```js
 import myIconUrl from './svgs/my-icon.svg?url';
 
 const App = () => {
@@ -78,15 +82,15 @@ export default App;
 ```
 
 To import all svg inside a folder, use `[name].svg` as the file value. This will import an object, where the keys are the matched names (without extension), and the values are the corresponding component or url.
-```
+```js
 import iconsDic from './svgs/[name].svg';
 
-/*
-  iconsDic = {
-    icon1: () => import("./svgs/icon1.svg"),
-    icon2: () => import("./svgs/icon2.svg")
-  }
-*/
+// Will Result in:
+
+iconsDic = {
+  icon1: () => import("./svgs/icon1.svg"),
+  icon2: () => import("./svgs/icon2.svg")
+}
 
 const App = () => {
   const Icon1 = lazy(() => iconsDic.icon1())
@@ -114,12 +118,11 @@ const App = () => {
     </div>
   )
 }
-
 ```
 
 However the fill color of the image cannot be overriden. Importing the svg as a component solves this and allows css styles to cascade into the svg content. Furthermore there may be situations where you'll need to ensure the image has been fully loaded, for example, before starting an animation. This module gives you a component that you can control when it's loaded.
 
-# Credits
+## Credits
 This plugin is based on the work from the following projects:
 - https://github.com/visualfanatic/vite-svg
 - https://github.com/cobbcheng/vite-plugin-svgstring
