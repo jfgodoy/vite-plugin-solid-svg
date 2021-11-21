@@ -26,7 +26,7 @@ async function optimizeSvg(content, path) {
 
 module.exports = (options = {}) => {
   const { defaultExport = "component" } = options;
-  const svgRegex = /(?:\[name\])?\.svg(?:\?(component|url))?$/;
+  const svgRegex = /(?:\[name\])?\.svg(?:\?(component|url)(?:&inilne)?)?$/;
 
   return {
     enforce: "pre",
