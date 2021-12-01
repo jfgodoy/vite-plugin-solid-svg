@@ -1,15 +1,28 @@
-import { Component } from 'solid-js'
-import { Counter } from './Counter'
+import { Component, For, lazy } from 'solid-js'
+import CircleIcon from "../../svgs/circle.svg"
+import rectIconUrl from "../../svgs/rect.svg?url"
+import icons from "../../svgs/[name].svg";
+
+let iconList = Object.entries(icons).map(function ([key, value]) {
+  return {name: key, SvgComponent: lazy(() => value())}
+});
 
 const Page: Component = () => {
   return (
     <>
       <h1>Welcome</h1>
-      This page is:
       <ul>
-        <li>Rendered to HTML.</li>
+        <li>svg as component: <CircleIcon /></li>
+        <li>svg as url: <img src={rectIconUrl} /></li>
         <li>
-          Interactive. <Counter />
+          load directory:
+          <ul>
+            <For each={iconList}>
+              {
+                ({name, SvgComponent}) => <li>{name}: <SvgComponent /></li>
+              }
+            </For>
+          </ul>
         </li>
       </ul>
     </>

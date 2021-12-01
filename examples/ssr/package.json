@@ -16,9 +16,13 @@
     "typescript": "^4.3.2",
     "vite": "^2.3.6",
     "vite-plugin-solid": "^2.0.1",
+    "vite-plugin-solid-svg": "file:../..",
     "vite-plugin-ssr": "0.3.31"
   },
   "// Needed for Yarn workspaces": "",
   "name": "example-solid",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "devDependencies": {
+    "vite-plugin-inspect": "^0.3.11"
+  }
 }

@@ -1,5 +1,5 @@
 import { Component } from 'solid-js'
-import logo from './logo.svg'
+import logo from './logo.svg?url'
 import './PageLayout.css'
 
 export { PageLayout }
