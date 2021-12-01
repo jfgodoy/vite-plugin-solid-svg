@@ -1,23 +1,30 @@
-import logo from "./logo.svg";
-import styles from "./App.module.css";
+import { lazy } from "solid-js";
+import CircleIcon from "./svgs/circle.svg"
+import rectIconUrl from "./svgs/rect.svg?url"
+import icons from "./svgs/[name].svg";
+
+let iconList = Object.entries(icons).map(function ([key, value]) {
+  return {name: key, SvgComponent: lazy(() => value())}
+});
 
 function App() {
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn Solid
-        </a>
-      </header>
+    <div>
+      <ul>
+        <li>svg as component: <CircleIcon /></li>
+        <li>svg as url: <img src={rectIconUrl} /></li>
+        <li>
+          load directory:
+          <ul>
+            <For each={iconList}>
+              {
+                ({name, SvgComponent}) => <li>{name}: <SvgComponent /></li>
+              }
+            </For>
+          </ul>
+        </li>
+      </ul>
+
     </div>
   );
 }
