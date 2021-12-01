@@ -5,16 +5,8 @@ const { readFile } = require("fs/promises");
 const { optimize, loadConfig } = require("svgo");
 
 async function compileSvg(source) {
-  return `
-  import { template, spread } from "solid-js/web";
-
-  const _tmpl$ = template(\`${source}\`, 0);
-  export default (props = {}) => {
-    const _el$ = _tmpl$.cloneNode(true);
-    spread(_el$, props, true);
-    return _el$;
-  };
-  `;
+  const svgWithProps = source.replace(/(?<=<svg.*?)(>)/i, "{...props}>");
+  return `export default (props = {}) => ${svgWithProps}`;
 }
 
 
@@ -26,7 +18,7 @@ async function optimizeSvg(content, path) {
 
 module.exports = (options = {}) => {
   const { defaultExport = "component" } = options;
-  const svgRegex = /(?:\[name\])?\.svg(?:\?(component|url))?$/;
+  const svgRegex = /(?:\[name\])?\.svg(?:.tsx)?(?:\?(component|url))?$/;
 
   return {
     enforce: "pre",
@@ -37,18 +29,23 @@ module.exports = (options = {}) => {
       if (!result) {
         return null;
       }
+
+      const type = result[1];
+      const resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), id));
+
       if (id.indexOf("[name]") >= 0) {
-        /* when build is from `npm run dev`, the id is an absolute path, with root the project dir, and the importer
-        * is the absolute path to the index.html, with root the system root.
-        * When build is from `npm run build, the id the same declared in code, and the importer is the absolute path
-        * to the importer.
-        * If you know a better way to get the absolute path to a "virtual" file, let me know
-        */
-        const importerDir = nodePath.dirname(importer);
-        const absPath = nodePath.isAbsolute(id) ? nodePath.join(importerDir, id) : nodePath.resolve(importerDir, id);
-        return absPath;
+        return resolvedPath;
       }
+
+      if ((defaultExport === "component" && typeof type === "undefined") || type === "component") {
+        const resolvedPathAsComponent =  resolvedPath.replace(/\.svg(\.tsx)?/, ".svg.tsx");
+        return resolvedPathAsComponent;
+      }
+
+      // if mode is url, we use the default behavior
+      return null;
     },
+
     async load(id) {
       const result = id.match(svgRegex);
 
@@ -67,16 +64,15 @@ module.exports = (options = {}) => {
           const matched = regex.exec(file);
           const name = matched[1];
           const qs = type ? `?${type}` : "";
-          source += `"${name}": () => import("${file}${qs}"),\n`;
+          source += `"${name}": () => import("./${name}.svg${qs}"),\n`;
         });
         source += "}";
+
         return source;
       }
 
-
-
       if ((defaultExport === "component" && typeof type === "undefined") || type === "component") {
-        const idWithoutQuery = id.replace(".svg?component", ".svg");
+        const idWithoutQuery = id.replace(/\.svg.*/, ".svg");
         const code = await readFile(idWithoutQuery);
         const svg = await optimizeSvg(code, idWithoutQuery);
         const result = await compileSvg(svg);
@@ -84,6 +80,7 @@ module.exports = (options = {}) => {
         return result;
       }
     },
+
     async transform(source, id) {
       const result = id.match(svgRegex);
 
