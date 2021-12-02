@@ -9,35 +9,52 @@ async function compileSvg(source) {
   return `export default (props = {}) => ${svgWithProps}`;
 }
 
-
 async function optimizeSvg(content, path) {
   const config = await loadConfig();
   const { data } = await optimize(content, Object.assign({}, config, { path }));
   return data;
 }
 
+function parseId(id) {
+  let idx = id.indexOf("?");
+  if (idx < 0) {
+    idx = id.length;
+  }
+  const path = id.substr(0, idx);
+  const qs = id.substr(idx + 1);
+  return {path, qs};
+}
+
 module.exports = (options = {}) => {
   const { defaultExport = "component" } = options;
-  const svgRegex = /(?:\[name\])?\.svg(?:.tsx)?(?:\?(component|url))?$/;
+
+  const isComponentMode = (qs) => {
+    const params = new URLSearchParams(qs);
+    if (params.has("component")) {
+      return true;
+    }
+    if (params.has("url")) {
+      return false;
+    }
+    return defaultExport == "component";
+  };
 
   return {
     enforce: "pre",
     name: "solid-svg",
     resolveId(id, importer) {
-      const result = id.match(svgRegex);
-
-      if (!result) {
+      const {path, qs} = parseId(id);
+      if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
         return null;
       }
 
-      const type = result[1];
       const resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), id));
 
       if (id.indexOf("[name]") >= 0) {
         return resolvedPath;
       }
 
-      if ((defaultExport === "component" && typeof type === "undefined") || type === "component") {
+      if (isComponentMode(qs)) {
         const resolvedPathAsComponent =  resolvedPath.replace(/\.svg(\.tsx)?/, ".svg.tsx");
         return resolvedPathAsComponent;
       }
@@ -47,23 +64,19 @@ module.exports = (options = {}) => {
     },
 
     async load(id) {
-      const result = id.match(svgRegex);
-
-      if (!result) {
+      const {path, qs} = parseId(id);
+      if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
         return null;
       }
 
-      const type = result[1];
-
       if (id.indexOf("[name]") >= 0) {
-        const pattern = id.replace(svgRegex, "*.svg");
+        const pattern = path.replace("[name].svg", "*.svg");
         const files = fg.sync(pattern);
-        const regex = new RegExp(id.replace(svgRegex, "(.*)\\.svg"));
+        const regex = new RegExp(id.replace("[name].svg", "(.*)\\.svg"));
         let source = "export default {\n";
         files.forEach(file => {
           const matched = regex.exec(file);
           const name = matched[1];
-          const qs = type ? `?${type}` : "";
           source += `"${name}": () => import("./${name}.svg${qs}"),\n`;
         });
         source += "}";
@@ -71,28 +84,15 @@ module.exports = (options = {}) => {
         return source;
       }
 
-      if ((defaultExport === "component" && typeof type === "undefined") || type === "component") {
-        const idWithoutQuery = id.replace(/\.svg.*/, ".svg");
-        const code = await readFile(idWithoutQuery);
-        const svg = await optimizeSvg(code, idWithoutQuery);
+      if (isComponentMode(qs)) {
+        const svgPath = path.replace(".svg.tsx", ".svg");
+        const code = await readFile(svgPath);
+        const svg = await optimizeSvg(code, svgPath);
         const result = await compileSvg(svg);
 
         return result;
       }
     },
 
-    async transform(source, id) {
-      const result = id.match(svgRegex);
-
-      if (!result) {
-        return null;
-      }
-
-      const type = result[1];
-
-      if ((defaultExport === "url" && typeof type === "undefined") || type === "url") {
-        return source;
-      }
-    }
   };
 };
