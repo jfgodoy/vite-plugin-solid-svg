@@ -5,6 +5,7 @@
 - [SVGO](https://github.com/svg/svgo) optimization
 - Hot Module Replacement support
 - Support for `?url` and `?component` query string
+- SSR
 
 #### Currently supported Vite version:
 
