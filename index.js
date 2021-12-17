@@ -13,13 +13,12 @@ function compileSvg(source) {
   return `
   import { template, spread } from "solid-js/web";
 
-  const _tmpl$ = template(\`${source}\`, 0);
+  const _tmpl$ = template(\`${source.replace("`", "\\`")}\`, 0);
   export default (props = {}) => {
     const _el$ = _tmpl$.cloneNode(true);
     spread(_el$, props, true);
     return _el$;
-  };
-  `;
+  };`;
 }
 
 async function optimizeSvg(content, path) {
@@ -62,7 +61,7 @@ module.exports = (options = {}) => {
     options.defaultExport === "component"
       ? "comp"
       : options.defaultExport || "comp";
-  const svgRegex = /(?:\[name\])?\.svg(?:\?(component|url)(?:&inline)?)?$/;
+  //const svgRegex = /(?:\[name\])?\.svg(?:\?(component|url)(?:&inline)?)?$/;
 
   return {
     enforce: "pre",
@@ -100,7 +99,8 @@ module.exports = (options = {}) => {
 
       if (data.dir) {
         // TODO: Check if this works!
-        const offset = url.search.length + ".svg".length + (data.dir ? "[name]".length : 0);
+        const offset =
+          url.search.length + ".svg".length + (data.dir ? "[name]".length : 0);
         const basePath = url.pathname.slice(0, id.length - offset);
         const pattern = basePath + "*.svg"; //id.replace(svgRegex, "*.svg");
         const files = fg.sync(pattern);
