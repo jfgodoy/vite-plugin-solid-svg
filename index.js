@@ -48,7 +48,7 @@ module.exports = (options = {}) => {
         return null;
       }
 
-      const resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), id));
+      const resolvedPath = nodePath.join(nodePath.dirname(importer), id);
 
       if (id.indexOf("[name]") >= 0) {
         return resolvedPath;
