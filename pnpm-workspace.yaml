@@ -1,0 +1,5 @@
+auto-install-peers: true
+
+packages:
+  - 'examples/*'
+
