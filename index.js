@@ -15,16 +15,6 @@ async function optimizeSvg(content, path) {
   return data;
 }
 
-function parseId(id) {
-  let idx = id.indexOf("?");
-  if (idx < 0) {
-    idx = id.length;
-  }
-  const path = id.substr(0, idx);
-  const qs = id.substr(idx + 1);
-  return {path, qs};
-}
-
 module.exports = (options = {}) => {
   const { defaultExport = "component" } = options;
 
@@ -43,7 +33,7 @@ module.exports = (options = {}) => {
     enforce: "pre",
     name: "solid-svg",
     resolveId(id, importer) {
-      const {path, qs} = parseId(id);
+      const [path, qs] = id.split("?");
       if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
         return null;
       }
@@ -64,7 +54,7 @@ module.exports = (options = {}) => {
     },
 
     async load(id) {
-      const {path, qs} = parseId(id);
+      const [path, qs] = id.split("?");
       if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
         return null;
       }
