@@ -1,17 +1,18 @@
-import { lazy } from "solid-js";
-import CircleIcon from "./svgs/circle.svg"
+import type { Component } from 'solid-js';
+import { lazy, For } from "solid-js";
+import CircleIcon from "./svgs/circle.svg?component";
 import rectIconUrl from "./svgs/rect.svg?url"
-import icons from "./svgs/[name].svg";
+import icons from "./svgs/[name].svg?component";
 
 let iconList = Object.entries(icons).map(function ([key, value]) {
   return {name: key, SvgComponent: lazy(() => value())}
 });
 
-function App() {
+const App: Component = () => {
   return (
     <div>
       <ul>
-        <li>svg as component: <CircleIcon fill="blue" /></li>
+        <li>svg as component: <CircleIcon fill="blue"/></li>
         <li>svg as url: <img src={rectIconUrl} /></li>
         <li>
           load directory:

@@ -15,6 +15,12 @@ async function optimizeSvg(content, path) {
   return data;
 }
 
+/* how this plugin works:
+ * The plugin need to transform an svg file to a solid component. We let the solid compilation to vite-plugin-solid.
+ * To achieve this, the resolveId hook must resolve to some tsx, without querystring.
+ * In the load hook, we read the svg and generate the source for the solid component.
+ */
+
 module.exports = (options = {}) => {
   const { defaultExport = "component" } = options;
 
@@ -34,19 +40,15 @@ module.exports = (options = {}) => {
     name: "solid-svg",
     resolveId(id, importer) {
       const [path, qs] = id.split("?");
-      if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
+      if (!path.endsWith(".svg")) {
         return null;
       }
 
-      const resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), id));
-
-      if (id.indexOf("[name]") >= 0) {
+      if (isComponentMode(qs) || id.indexOf("[name]") >= 0) {
+        const mode = isComponentMode(qs) ? "as_component" : "as_url";
+        let resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), path));
+        resolvedPath = resolvedPath.replace(/\.svg$/, `.${mode}.svg.tsx`);
         return resolvedPath;
-      }
-
-      if (isComponentMode(qs)) {
-        const resolvedPathAsComponent =  resolvedPath.replace(/\.svg(\.tsx)?/, ".svg.tsx");
-        return resolvedPathAsComponent;
       }
 
       // if mode is url, we use the default behavior
@@ -54,30 +56,37 @@ module.exports = (options = {}) => {
     },
 
     async load(id) {
-      const [path, qs] = id.split("?");
-      if (!path.endsWith(".svg") && !path.endsWith(".svg.tsx")) {
+      let path = id;
+      let mode;
+
+      if (path.endsWith(".as_component.svg.tsx")) {
+        path = path.replace(".as_component.svg.tsx", ".svg");
+        mode = "component";
+      } else if (path.endsWith(".as_url.svg.tsx")) {
+        path = path.replace(".as_url.svg.tsx", ".svg");
+        mode = "url";
+      } else {
         return null;
       }
 
-      if (id.indexOf("[name]") >= 0) {
+      if (path.indexOf("[name]") >= 0) {
         const pattern = path.replace("[name].svg", "*.svg");
         const files = fg.sync(pattern);
-        const regex = new RegExp(id.replace("[name].svg", "(.*)\\.svg"));
+        const regex = new RegExp(path.replace("[name].svg", "(.*)\\.svg"));
         let source = "export default {\n";
         files.forEach(file => {
           const matched = regex.exec(file);
           const name = matched[1];
-          source += `"${name}": () => import("./${name}.svg${qs}"),\n`;
+          source += `"${name}": () => import("./${name}.svg?${mode}"),\n`;
         });
         source += "}";
 
         return source;
       }
 
-      if (isComponentMode(qs)) {
-        const svgPath = path.replace(".svg.tsx", ".svg");
-        const code = await readFile(svgPath);
-        const svg = await optimizeSvg(code, svgPath);
+      if (mode === "component") {
+        const code = await readFile(path);
+        const svg = await optimizeSvg(code, path);
         const result = await compileSvg(svg);
 
         return result;

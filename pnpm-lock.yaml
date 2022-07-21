@@ -6,6 +6,7 @@ importers:
     specifiers:
       eslint: ^7.32.0
       fast-glob: ^3.2.7
+      solid-js: ^1.4.7
       svgo: ^2.3.1
       vite: ^2.9.14
     dependencies:
@@ -13,6 +14,7 @@ importers:
       svgo: 2.8.0
     devDependencies:
       eslint: 7.32.0
+      solid-js: 1.4.7
       vite: 2.9.14
 
   examples/app-js:
@@ -24,6 +26,21 @@ importers:
     dependencies:
       solid-js: 1.4.7
     devDependencies:
+      vite: 2.9.14
+      vite-plugin-solid: 2.3.0_solid-js@1.4.7+vite@2.9.14
+      vite-plugin-solid-svg: 'file:'
+
+  examples/app-ts:
+    specifiers:
+      solid-js: ^1.4.7
+      typescript: ^4.7.4
+      vite: ^2.5.7
+      vite-plugin-solid: ^2.2.5
+      vite-plugin-solid-svg: file:../..
+    dependencies:
+      solid-js: 1.4.7
+    devDependencies:
+      typescript: 4.7.4
       vite: 2.9.14
       vite-plugin-solid: 2.3.0_solid-js@1.4.7+vite@2.9.14
       vite-plugin-solid-svg: 'file:'
@@ -2104,7 +2121,6 @@ packages:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
 
   /ufo/0.7.11:
     resolution: {integrity: sha512-IT3q0lPvtkqQ8toHQN/BkOi4VIqoqheqM1FnkNWT9y0G8B3xJhwnoKBu5OHx8zHDOvveQzfKuFowJ0VSARiIDg==}

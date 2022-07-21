@@ -101,6 +101,16 @@ const App = () => {
 export default App;
 ```
 
+### Typescript considerations
+vite add its own definition for `"*.svg"` and it define them as `string`. So far as I know this can't be overrided.
+To propertly have type inference, you must use the imports with querystring.
+
+```
+import MyIcon from './svgs/my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
+import MyIcon from './svgs/my-icon.svg?component';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
+```
+
+
 ### Why
 
 In a Solidjs + vite project, you can easily add an svg image using:
