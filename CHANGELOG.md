@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.0] - 2022-07-21
+- add typescript example
+- fixes typescripts issues by changing module declarations
+- fix typescript compilation
+
 ## [0.2.0] - 2021-12-14
 - fix ssr by using solid compiler (issue #6)
 - add examples projects
