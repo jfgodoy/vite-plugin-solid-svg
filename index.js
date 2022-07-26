@@ -5,7 +5,7 @@ const { readFile } = require("fs/promises");
 const { optimize, loadConfig } = require("svgo");
 
 async function compileSvg(source) {
-  const svgWithProps = source.replace(/(?<=<svg.*?)(>)/i, "{...props}>");
+  const svgWithProps = source.replace(/([{}])/g, "{'$1'}").replace(/(?<=<svg.*?)(>)/i, "{...props}>");
   return `export default (props = {}) => ${svgWithProps}`;
 }
 
