@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.3.1] - 2022-07-26
+- fixes load of svg files that contains a style block (issue #13)
+
 ## [0.3.0] - 2022-07-21
 - add typescript example
 - fixes typescripts issues by changing module declarations
