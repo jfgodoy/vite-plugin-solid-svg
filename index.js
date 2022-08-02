@@ -9,8 +9,8 @@ async function compileSvg(source) {
   return `export default (props = {}) => ${svgWithProps}`;
 }
 
-async function optimizeSvg(content, path) {
-  const config = await loadConfig();
+async function optimizeSvg(content, path, svgoConfig) {
+  let config = svgoConfig || await loadConfig();
   const { data } = await optimize(content, Object.assign({}, config, { path }));
   return data;
 }
@@ -22,7 +22,7 @@ async function optimizeSvg(content, path) {
  */
 
 module.exports = (options = {}) => {
-  const { defaultExport = "component" } = options;
+  const { defaultExport = "component", svgo = { enabled: true } } = options;
 
   const isComponentMode = (qs) => {
     const params = new URLSearchParams(qs);
@@ -85,9 +85,11 @@ module.exports = (options = {}) => {
       }
 
       if (mode === "component") {
-        const code = await readFile(path);
-        const svg = await optimizeSvg(code, path);
-        const result = await compileSvg(svg);
+        let code = await readFile(path, {encoding: 'utf8'});
+        if(svgo.enabled){
+          code = await optimizeSvg(code, path, svgo.svgoConfig);
+        }
+        const result = await compileSvg(code);
 
         return result;
       }

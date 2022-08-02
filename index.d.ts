@@ -1,7 +1,13 @@
+import type { OptimizeOptions } from 'svgo';
+
 declare module 'vite-plugin-solid-svg' {
   import type { Plugin } from 'vite';
   interface Options {
     defaultExport?: "component" | "url"
+    svgo?: {
+      enabled: boolean
+      svgoConfig: OptimizeOptions
+    }
   }
 
   function svg(options?: Options): Plugin
