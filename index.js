@@ -85,7 +85,7 @@ module.exports = (options = {}) => {
       }
 
       if (mode === "component") {
-        let code = await readFile(path);
+        let code = await readFile(path, {encoding: 'utf8'});
         if(svgo.enabled){
           code = await optimizeSvg(code, path, svgo.svgoConfig);
         }
