@@ -7,6 +7,7 @@ import Inspect from 'vite-plugin-inspect'
 const config: UserConfig = {
   plugins: [Inspect(), solidPlugin({ ssr: true }), solidSvg(), ssr()],
   build: {
+    // @ts-ignore
     polyfillDynamicImport: false,
   },
 }

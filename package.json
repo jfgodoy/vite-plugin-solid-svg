@@ -23,10 +23,10 @@
   "devDependencies": {
     "eslint": "^7.32.0",
     "solid-js": "^1.4.7",
-    "vite": "^2.9.14"
+    "vite": "^3"
   },
   "peerDependencies": {
-    "solid-js": "^1.4.7",
-    "vite": "^2.9.14"
+    "solid-js": "^1",
+    "vite": ">=2.4"
   }
 }
