@@ -11,6 +11,9 @@ async function compileSvg(source) {
 
 async function optimizeSvg(content, path) {
   const config = await loadConfig();
+  if (config.datauri) {
+    throw new Error("datauri option for svgo is not allowed when you use vite-plugin-solid-svg. Remove it or use a falsy value.");
+  }
   const { data } = await optimize(content, Object.assign({}, config, { path }));
   return data;
 }
