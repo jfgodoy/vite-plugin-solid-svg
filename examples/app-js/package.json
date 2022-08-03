@@ -10,7 +10,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "vite": "^2.5.7",
+    "vite": "^3",
     "vite-plugin-solid": "^2.2.5",
     "vite-plugin-solid-svg": "file:../.."
   },

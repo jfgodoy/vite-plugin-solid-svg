@@ -1,7 +1,7 @@
 import { Component, For, lazy } from 'solid-js'
-import CircleIcon from "../../svgs/circle.svg"
+import CircleIcon from "../../svgs/circle.svg?component"
 import rectIconUrl from "../../svgs/rect.svg?url"
-import icons from "../../svgs/[name].svg";
+import icons from "../../svgs/[name].svg?component";
 
 let iconList = Object.entries(icons).map(function ([key, value]) {
   return {name: key, SvgComponent: lazy(() => value())}

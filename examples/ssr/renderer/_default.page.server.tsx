@@ -1,6 +1,6 @@
-import { generateHydrationScript, renderToString } from 'solid-js/web'
+import { generateHydrationScript, renderToStream } from 'solid-js/web'
 import { PageLayout } from './PageLayout'
-import { escapeInject, dangerouslySkipEscape } from 'vite-plugin-ssr'
+import { escapeInject, dangerouslySkipEscape, stampPipe } from 'vite-plugin-ssr'
 import { PageContext } from './types'
 import logoUrl from './logo.svg?url'
 
@@ -13,11 +13,8 @@ const passToClient = ['pageProps', 'documentProps']
 function render(pageContext: PageContext) {
   const { Page, pageProps } = pageContext
 
-  const pageHtml = renderToString(() => (
-    <PageLayout>
-      <Page {...pageProps} />
-    </PageLayout>
-  ))
+  const { pipe } = renderToStream(() => <PageLayout route={() => ({ Page, pageProps })} />)
+  stampPipe(pipe, 'node-stream')
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext
@@ -35,7 +32,7 @@ function render(pageContext: PageContext) {
         ${dangerouslySkipEscape(generateHydrationScript())}
       </head>
       <body>
-        <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
+        <div id="page-view">${pipe}</div>
       </body>
     </html>`
 }
