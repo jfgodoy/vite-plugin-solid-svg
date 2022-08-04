@@ -13,7 +13,7 @@
     "typescript": "^4.7.4",
     "vite": "^3",
     "vite-plugin-solid": "^2.2.5",
-    "vite-plugin-solid-svg": "file:../.."
+    "vite-plugin-solid-svg": "link:../.."
   },
   "dependencies": {
     "solid-js": "^1.4.7"

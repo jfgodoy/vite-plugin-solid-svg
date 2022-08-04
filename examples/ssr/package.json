@@ -10,7 +10,7 @@
     "vite": "^3",
     "vite-plugin-solid": "^2.0.1",
     "vite-plugin-ssr": "0.4.16",
-    "vite-plugin-solid-svg": "file:../.."
+    "vite-plugin-solid-svg": "link:../.."
   },
   "devDependencies": {
     "vite-plugin-inspect": "^0.6.0"
