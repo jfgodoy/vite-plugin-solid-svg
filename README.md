@@ -40,10 +40,15 @@ module.exports = {
 SolidSvg({
   // Default behavior when importing `.svg` files, possible options are: 'url' and `component`
   defaultExport: 'component',
+
+  svgo: {
+    enabled: true, // optional, by default is true
+    svgoConfig: <svgo config>  // optional, if defined, the file svgo.config.js is not loaded.
+  }
 })
 ```
 
-If you need to configure the `svgo` options, you can create a config file `svgo.config.js` in the project's root, following the instructions at [svgo docs](https://github.com/svg/svgo).
+If you need to configure `svgo`, you can also create a config file `svgo.config.js` in the project's root, following the instructions at [svgo docs](https://github.com/svg/svgo). The `svgo.svgoConfig` has precedence over the file.
 
 ### Usage
 
