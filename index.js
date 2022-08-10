@@ -39,39 +39,36 @@ module.exports = (options = {}) => {
     return defaultExport == "component";
   };
 
+  let config;
+
   return {
     enforce: "pre",
     name: "solid-svg",
+
+    configResolved(cfg) {
+      config = cfg;
+    },
+
     resolveId(id, importer) {
       const [path, qs] = id.split("?");
-      if (!path.endsWith(".svg")) {
-        return null;
-      }
 
-      if (isComponentMode(qs) || id.indexOf("[name]") >= 0) {
-        const mode = isComponentMode(qs) ? "as_component" : "as_url";
+      if (path.endsWith(".svg") && path.indexOf("[name]") >= 0) {
         let resolvedPath = nodePath.relative( nodePath.resolve("."), nodePath.resolve(nodePath.dirname(importer), path));
-        resolvedPath = resolvedPath.replace(/\.svg$/, `.${mode}.svg.tsx`);
+        resolvedPath = `${resolvedPath}?${qs}`;
         return resolvedPath;
       }
 
-      // if mode is url, we use the default behavior
       return null;
     },
 
     async load(id) {
-      let path = id;
-      let mode;
+      const [path, qs] = id.split("?");
 
-      if (path.endsWith(".as_component.svg.tsx")) {
-        path = path.replace(".as_component.svg.tsx", ".svg");
-        mode = "component";
-      } else if (path.endsWith(".as_url.svg.tsx")) {
-        path = path.replace(".as_url.svg.tsx", ".svg");
-        mode = "url";
-      } else {
+      if (!path.endsWith("svg")) {
         return null;
       }
+
+      const mode = isComponentMode(qs) ? "component" : "url";
 
       if (path.indexOf("[name]") >= 0) {
         const pattern = path.replace("[name].svg", "*.svg");
@@ -89,13 +86,24 @@ module.exports = (options = {}) => {
       }
 
       if (mode === "component") {
-        let code = await readFile(path, {encoding: 'utf8'});
-        if(svgo.enabled){
+        let code = await readFile(path, {encoding: "utf8"});
+        if (svgo.enabled) {
           code = await optimizeSvg(code, path, svgo.svgoConfig);
         }
         const result = await compileSvg(code);
 
         return result;
+      }
+    },
+
+    transform(source, id, transformOptions) {
+      const [path, qs] = id.split("?");
+      if (path.endsWith("svg") && isComponentMode(qs)) {
+        const solidPlugin = config.plugins.find(p => p.name == "solid");
+        if (!solidPlugin) {
+          throw new Error("solid plugin not found");
+        }
+        return solidPlugin.transform(source, `${path}.tsx`, transformOptions);
       }
     },
 

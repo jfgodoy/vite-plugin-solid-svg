@@ -12,6 +12,7 @@
   "devDependencies": {
     "typescript": "^4.7.4",
     "vite": "^3",
+    "vite-plugin-inspect": "^0.6.0",
     "vite-plugin-solid": "^2.2.5",
     "vite-plugin-solid-svg": "link:../.."
   },
