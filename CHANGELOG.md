@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.1] - 2022-08-09
+- fix hot module reload
+
 ## [0.4.0] - 2022-08-03
 - add support for vite@3
 - add check for datauri option in svgo config. The datauri option breaks this plugin, so is not allowed.
