@@ -8,6 +8,9 @@ declare module 'vite-plugin-solid-svg' {
       enabled?: boolean
       svgoConfig?: OptimizeOptions
     }
+    compilerOptions?: {
+      allow_props_children?: boolean
+    }
   }
 
   function svg(options?: Options): Plugin

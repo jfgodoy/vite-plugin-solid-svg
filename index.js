@@ -4,8 +4,11 @@ const fg = require("fast-glob");
 const { readFile } = require("fs/promises");
 const { optimize, loadConfig } = require("svgo");
 
-async function compileSvg(source) {
-  const svgWithProps = source.replace(/([{}])/g, "{'$1'}").replace(/(?<=<svg.*?)(>)/i, "{...props}>");
+async function compileSvg(source, compilerOptions) {
+  let svgWithProps = source.replace(/([{}])/g, "{'$1'}").replace(/(?<=<svg.*?)(>)/i, "{...props}>");
+  if (compilerOptions.allow_props_children) {
+    svgWithProps = svgWithProps.replace(/\{'\{'\}\s*(props\.children)\s*\{'\}'\}/g, "{$1}");
+  }
   return `export default (props = {}) => ${svgWithProps}`;
 }
 
@@ -26,7 +29,7 @@ async function optimizeSvg(content, path, svgoConfig) {
  */
 
 module.exports = (options = {}) => {
-  const { defaultExport = "component", svgo = { enabled: true } } = options;
+  const { defaultExport = "component", svgo = { enabled: true }, compilerOptions = { allow_props_children: false} } = options;
 
   const isComponentMode = (qs) => {
     const params = new URLSearchParams(qs);
@@ -88,9 +91,10 @@ module.exports = (options = {}) => {
       if (mode === "component") {
         let code = await readFile(path, {encoding: "utf8"});
         if (svgo.enabled) {
-          code = await optimizeSvg(code, path, svgo.svgoConfig);
+          let optimized = await optimizeSvg(code, path, svgo.svgoConfig);
+          code = optimized || code;
         }
-        const result = await compileSvg(code);
+        const result = await compileSvg(code, compilerOptions);
 
         return result;
       }
