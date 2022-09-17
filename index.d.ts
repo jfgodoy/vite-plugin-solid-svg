@@ -39,4 +39,7 @@ declare module '*[name].svg?url' {
   export default dict;
 }
 
-declare module '*.svg?url';
+declare module '*.svg?url' {
+  const src: string;
+  export default src;
+}
