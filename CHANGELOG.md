@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.5.0] - 2022-09-18
+- fix typescript definition for `?url`
+- add support for `props.children` inside svg, but only if it enabled in the options. See #19
+
 ## [0.4.1] - 2022-08-09
 - fix hot module reload
 
