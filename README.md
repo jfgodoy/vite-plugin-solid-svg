@@ -2,9 +2,10 @@
 <p align="center">Extend Vite with ability to use SVG files as Solid.js components.</p>
 
 ### Features:
+
 - [SVGO](https://github.com/svg/svgo) optimization
 - Hot Module Replacement support
-- Support for `?url` and `?component` query string
+- Support for `?component` query string
 - SSR
 
 #### Currently supported Vite version:
@@ -16,30 +17,40 @@
 ```bash
 yarn add --dev vite-plugin-solid-svg
 
-npm i -D vite-plugin-solid-svg
+pnpm i -D vite-plugin-solid-svg
 ```
 
 ### Setup
 
 ```js
 // vite.config.js
-import solidPlugin from "vite-plugin-solid";
-import solidSvg from "vite-plugin-solid-svg";
+import solidPlugin from 'vite-plugin-solid'
+import solidSvg from 'vite-plugin-solid-svg'
+import { defineConfig } from 'vite'
 
-module.exports = {
-  plugins: [
-    solidPlugin(),
-    solidSvg(),
-  ],
-};
+export default defineConfig({
+  plugins: [solidPlugin(), solidSvg()],
+})
+```
+
+```json
+// tsconfig.json
+"compilerOptions": {
+  // ...
+  "types": ["vite/client", "vite-plugin-solid-svg/types"],
+},
 ```
 
 #### Options
 
 ```js
 SolidSvg({
-  // Default behavior when importing `.svg` files, possible options are: 'url' and `component`
-  defaultExport: 'component',
+  /**
+   * If true, will export as JSX component if `as` isn't specified.
+   *
+   * Otherwise will export as url, or as JSX component if '?as=component'
+   */
+  defaultAsComponent: true,
 
   svgo: {
     enabled: true, // optional, by default is true
@@ -53,8 +64,11 @@ If you need to configure `svgo`, you can also create a config file `svgo.config.
 ### Usage
 
 Import as a Solid.js component:
-```
-import MyIcon from './svgs/my-icon.svg';
+
+```tsx
+import MyIcon from './my-icon.svg';
+// or './my-icon.svg' if `defaultAsComponent` is `false`
+import MyIcon from './my-icon.svg';
 
 const App = () => {
   return (
@@ -68,29 +82,16 @@ const App = () => {
 export default App;
 ```
 
-Import as url:
-```
-import myIconUrl from './svgs/my-icon.svg?url';
+To import all svg inside a folder, use `import.meta.glob('@/svgs/*.svg', { as: 'component' })`. See [Vite docs](https://vitejs.dev/guide/features.html#static-assets) for more details.
 
-const App = () => {
-  return (
-    <div>
-        <p>url to icon: {myIconUrl} </p>
-    </div>
-  );
-};
 
-export default App;
-```
-
-To import all svg inside a folder, use `[name].svg` as the file value. This will import an object, where the keys are the matched names (without extension), and the values are the corresponding component or url.
-```
-import iconsDic from './svgs/[name].svg';
+```tsx
+const icons = import.meta.glob('./*.svg', { as: 'component' })
 
 /*
-  iconsDic = {
-    icon1: () => import("./svgs/icon1.svg"),
-    icon2: () => import("./svgs/icon2.svg")
+  icons = {
+    icon1: () => import("./icon1.svg"),
+    icon2: () => import("./icon2.svg")
   }
 */
 
@@ -107,21 +108,21 @@ export default App;
 ```
 
 ### Typescript considerations
+
 vite add its own definition for `"*.svg"` and it define them as `string`. So far as I know this can't be overrided.
 To propertly have type inference, you must use the imports with querystring.
 
+```ts
+import MyIcon from './my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
+import MyIcon from './my-icon.svg?component';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
 ```
-import MyIcon from './svgs/my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
-import MyIcon from './svgs/my-icon.svg?component';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
-```
-
 
 ### Why
 
 In a Solidjs + vite project, you can easily add an svg image using:
 
-```
-import iconUrl from '/svgs/icon.svg'
+```tsx
+import iconUrl from './icon.svg'
 
 const App = () => {
   return (
@@ -136,6 +137,8 @@ const App = () => {
 However the fill color of the image cannot be overriden. Importing the svg as a component solves this and allows css styles to cascade into the svg content. Furthermore there may be situations where you'll need to ensure the image has been fully loaded, for example, before starting an animation. This module gives you a component that you can control when it's loaded.
 
 # Credits
+
 This plugin is based on the work from the following projects:
+
 - https://github.com/visualfanatic/vite-svg
 - https://github.com/cobbcheng/vite-plugin-svgstring

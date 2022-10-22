@@ -1,20 +1,22 @@
-import { Component, For, lazy } from 'solid-js'
+import { render } from 'solid-js/web'
+
+import './index.css'
+import { lazy, For } from 'solid-js'
 import CircleIcon from '@/svgs/circle.svg?component'
 import rectIconUrl from '@/svgs/rect.svg?url'
 
 const modules = import.meta.glob('@/svgs/*.svg', { as: 'component' })
 
-let iconList = Object.entries(modules).map(function ([key, value]) {
+const icons = Object.entries(modules).map(([key, value]) => {
   return { name: key, SvgComponent: lazy(value) }
 })
 
-const Page: Component = () => {
+function App() {
   return (
-    <>
-      <h1>Welcome</h1>
+    <div>
       <ul>
         <li>
-          svg as component: <CircleIcon />
+          svg as component: <CircleIcon fill="blue" />
         </li>
         <li>
           svg as url: <img src={rectIconUrl} />
@@ -22,7 +24,7 @@ const Page: Component = () => {
         <li>
           load directory:
           <ul>
-            <For each={iconList}>
+            <For each={icons}>
               {({ name, SvgComponent }) => (
                 <li>
                   {name}: <SvgComponent />
@@ -32,8 +34,7 @@ const Page: Component = () => {
           </ul>
         </li>
       </ul>
-    </>
+    </div>
   )
 }
-
-export { Page }
+render(() => <App />, document.getElementById('root') as HTMLElement)

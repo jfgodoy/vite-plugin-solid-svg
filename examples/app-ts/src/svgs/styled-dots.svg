@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-  <style type="text/css">
-    .dot{opacity:0.5}
-  </style>
-
-  <circle cx="7" cy="7" r="5" class="dot" fill="red"/>
-  <circle cx="12" cy="12" r="5" class="dot" fill="yellow"/>
-</svg>
