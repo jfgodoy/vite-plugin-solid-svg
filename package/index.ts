@@ -58,13 +58,17 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
   }
 
   let config: ResolvedConfig
-
+  let solidPlugin: Plugin
   return {
     enforce: 'pre',
     name: 'solid-svg',
 
     configResolved(cfg) {
       config = cfg
+      solidPlugin = config.plugins.find((p) => p.name == 'solid')
+      if (!solidPlugin) {
+        throw new Error('solid plugin not found')
+      }
     },
 
     async load(id) {
@@ -89,10 +93,6 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
     transform(source, id, transformOptions) {
       const [path, qs] = id.split('?')
       if (path.endsWith('svg') && shouldProcess(qs)) {
-        const solidPlugin = config.plugins.find((p) => p.name == 'solid')
-        if (!solidPlugin) {
-          throw new Error('solid plugin not found')
-        }
         return solidPlugin.transform!.bind(this)(source, `${path}.tsx`, transformOptions)
       }
     },
