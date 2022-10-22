@@ -11,11 +11,13 @@ const config = {
     {
       format: 'es',
       dir: 'dist/es',
+      entryFileNames: '[name].mjs',
     },
     {
       format: 'cjs',
-      exports: 'auto',
       dir: 'dist/cjs',
+      exports: 'default',
+      entryFileNames: '[name].cjs',
     },
   ],
   plugins: [
