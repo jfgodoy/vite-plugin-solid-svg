@@ -52,9 +52,10 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
     compilerOptions = { allow_props_children: false },
   } = options
 
+  const extPrefix = 'component-solid'
   const shouldProcess = (qs: string) => {
     const params = new URLSearchParams(qs)
-    return (defaultAsComponent && !Array.from(params.entries()).length) || params.has('component')
+    return (defaultAsComponent && !Array.from(params.entries()).length) || params.has(extPrefix)
   }
 
   let config: ResolvedConfig

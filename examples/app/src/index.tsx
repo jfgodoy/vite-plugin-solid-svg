@@ -2,7 +2,7 @@ import { render } from 'solid-js/web'
 
 import './index.css'
 import { lazy, For } from 'solid-js'
-import CircleIcon from '@/svgs/circle.svg?component'
+import CircleIcon from '@/svgs/circle.svg?component-solid'
 import rectIconUrl from '@/svgs/rect.svg?url'
 
 const modules = import.meta.glob('@/svgs/*.svg', { as: 'component' })

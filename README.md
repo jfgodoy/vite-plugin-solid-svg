@@ -5,7 +5,7 @@
 
 - [SVGO](https://github.com/svg/svgo) optimization
 - Hot Module Replacement support
-- Support for `?component` query string
+- Support for `?component-solid` query string
 - SSR
 
 #### Currently supported Vite version:
@@ -66,7 +66,7 @@ If you need to configure `svgo`, you can also create a config file `svgo.config.
 Import as a Solid.js component:
 
 ```tsx
-import MyIcon from './my-icon.svg';
+import MyIcon from './my-icon.svg?component-solid';
 // or './my-icon.svg' if `defaultAsComponent` is `false`
 import MyIcon from './my-icon.svg';
 
@@ -82,7 +82,7 @@ const App = () => {
 export default App;
 ```
 
-To import all svg inside a folder, use `import.meta.glob('@/svgs/*.svg', { as: 'component' })`. See [Vite docs](https://vitejs.dev/guide/features.html#static-assets) for more details.
+To import all svg inside a folder, use `import.meta.glob('@/svgs/*.svg', { as: 'component-solid' })`. See [Vite docs](https://vitejs.dev/guide/features.html#static-assets) for more details.
 
 
 ```tsx
@@ -114,7 +114,7 @@ To propertly have type inference, you must use the imports with querystring.
 
 ```ts
 import MyIcon from './my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
-import MyIcon from './my-icon.svg?component';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
+import MyIcon from './my-icon.svg?component-solid';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
 ```
 
 ### Why
