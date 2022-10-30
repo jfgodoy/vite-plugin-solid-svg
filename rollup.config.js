@@ -1,6 +1,5 @@
 import babel from '@rollup/plugin-babel'
 import del from 'rollup-plugin-delete'
-import copy from 'rollup-plugin-copy'
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
@@ -27,9 +26,6 @@ const config = {
       babelHelpers: 'bundled',
       presets: ['@babel/preset-typescript'],
       exclude: /node_modules\//,
-    }),
-    copy({
-      targets: [{ src: './package/types.d.ts', dest: './dist' }],
     }),
   ],
 }
