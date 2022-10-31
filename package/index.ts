@@ -9,7 +9,7 @@ export type SolidSVGPluginOptions = {
   /**
    * If true, will export as JSX component if `as` isn't specified.
    *
-   * Otherwise will export as JSX component if '?as=component'
+   * Otherwise will export as JSX component if '?as=component-solid'
    */
   defaultAsComponent?: boolean
   svgo?: {
@@ -40,9 +40,8 @@ async function optimizeSvg(content: string | Buffer, path: string, svgoConfig?: 
 }
 
 /* how this plugin works:
- * The plugin need to transform an svg file to a solid component. We let the solid compilation to vite-plugin-solid.
- * To achieve this, the resolveId hook must resolve to some tsx, without querystring.
- * In the load hook, we read the svg and generate the source for the solid component.
+ * The plugin need to transform an svg file to a solid component.
+ * To achieve this, in the transform hook, we call the vite-plugin-solid to compile the svg  source into the solid component.
  */
 
 export default function (options: SolidSVGPluginOptions = {}): Plugin {

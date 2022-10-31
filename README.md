@@ -48,7 +48,7 @@ SolidSvg({
   /**
    * If true, will export as JSX component if `as` isn't specified.
    *
-   * Otherwise will export as url, or as JSX component if '?as=component'
+   * Otherwise will export as url, or as JSX component if '?as=component-solid'
    */
   defaultAsComponent: true,
 
@@ -67,7 +67,7 @@ Import as a Solid.js component:
 
 ```tsx
 import MyIcon from './my-icon.svg?component-solid';
-// or './my-icon.svg' if `defaultAsComponent` is `false`
+// or './my-icon.svg' if `defaultAsComponent` is `true`
 import MyIcon from './my-icon.svg';
 
 const App = () => {
@@ -86,7 +86,7 @@ To import all svg inside a folder, use `import.meta.glob('@/svgs/*.svg', { as: '
 
 
 ```tsx
-const icons = import.meta.glob('./*.svg', { as: 'component' })
+const icons = import.meta.glob('./*.svg', { as: 'component-solid' })
 
 /*
   icons = {
