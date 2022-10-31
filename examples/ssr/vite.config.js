@@ -1,15 +1,14 @@
 import solidPlugin from 'vite-plugin-solid'
 import ssr from 'vite-plugin-ssr/plugin'
-import { UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import solidSvg from 'vite-plugin-solid-svg'
 import Inspect from 'vite-plugin-inspect'
+import { sharedViteConfig } from '../common/vite'
 
-const config: UserConfig = {
+export default defineConfig({
+  ...sharedViteConfig,
   plugins: [Inspect(), solidPlugin({ ssr: true }), solidSvg(), ssr()],
   build: {
-    // @ts-ignore
     polyfillDynamicImport: false,
   },
-}
-
-export default config
+})

@@ -5,11 +5,14 @@
     "moduleResolution": "Node",
     "target": "ES2017",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "vite-plugin-solid-svg/types"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@/*": ["../common/*"]
+    }
   },
   "ts-node": {
     "transpileOnly": true,
