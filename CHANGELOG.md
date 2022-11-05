@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.6.0] - 2022-11-04
+the plugin was rewrited as a typescript project. Some features were removed as they are supported internally by vite.
+### **breaking changes**
+- Removed [name] pattern, as Vite supports globs by default: https://vitejs.dev/guide/features.html#glob-import
+- Replace `defaultExport` option for `defaultAsComponent`
+- Replace `component` sufix in query string for `component-solid`
+
 ## [0.5.0] - 2022-09-18
 - fix typescript definition for `?url`
 - add support for `props.children` inside svg, but only if it enabled in the options. See #19
