@@ -1,7 +1,10 @@
 # Change Log
 
-## [0.6.1] - 2023-03-01
+## [0.6.2] - 2023-06-04
 - replace svg comments with jsx comments
+
+## [0.6.1] - 2022-11-18
+- Add typescript defeneition for `defaultAsComponent` case
 
 ## [0.6.0] - 2022-11-04
 the plugin was rewrited as a typescript project. Some features were removed as they are supported internally by vite.

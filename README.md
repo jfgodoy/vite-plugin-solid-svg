@@ -36,8 +36,12 @@ export default defineConfig({
 ```json
 // tsconfig.json
 "compilerOptions": {
-  // ...
-  "types": ["vite/client", "vite-plugin-solid-svg/types"],
+  "types": [
+    "vite/client",
+    "vite-plugin-solid-svg/types",
+    // Use vite-plugin-solid-svg/types-default together with `defaultAsComponent`
+  ],
+
 },
 ```
 
@@ -49,6 +53,7 @@ SolidSvg({
    * If true, will export as JSX component if `as` isn't specified.
    *
    * Otherwise will export as url, or as JSX component if '?as=component-solid'
+   *
    */
   defaultAsComponent: true,
 

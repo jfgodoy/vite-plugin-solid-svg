@@ -27,7 +27,8 @@
   },
   "files": [
     "./dist",
-    "./types.d.ts"
+    "./types.d.ts",
+    "./types-default.d.ts"
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.mjs",
