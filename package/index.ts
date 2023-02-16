@@ -20,7 +20,10 @@ export type SolidSVGPluginOptions = {
 }
 
 async function compileSvg(source: string, compilerOptions: CompilerOptions) {
-  let svgWithProps = source.replace(/([{}])/g, "{'$1'}").replace(/(?<=<svg.*?)(>)/i, '{...props}>')
+  let svgWithProps = source
+    .replace(/<!--\s*([\s\S]*?)\s*-->/g, '{/* $1 */}')
+    .replace(/([{}])/g, "{'$1'}")
+    .replace(/(?<=<svg.*?)(>)/i, '{...props}>')
   if (compilerOptions.allow_props_children) {
     svgWithProps = svgWithProps.replace(/\{'\{'\}\s*(props\.children)\s*\{'\}'\}/g, '{$1}')
   }
