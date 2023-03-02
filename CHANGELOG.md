@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.1] - 2023-03-01
+- replace svg comments with jsx comments
+
 ## [0.6.0] - 2022-11-04
 the plugin was rewrited as a typescript project. Some features were removed as they are supported internally by vite.
 ### **breaking changes**
