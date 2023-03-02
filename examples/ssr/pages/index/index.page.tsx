@@ -1,8 +1,10 @@
-import { Component, For, lazy } from 'solid-js'
+import { For, lazy } from 'solid-js'
+import type { Component, JSX } from 'solid-js'
 import CircleIcon from '@/svgs/circle.svg?component-solid'
 import rectIconUrl from '@/svgs/rect.svg?url'
 
-const modules = import.meta.glob('@/svgs/*.svg', { as: 'component-solid' })
+type IconModule = {default: Component<JSX.SvgSVGAttributes<SVGSVGElement>>}
+const modules = import.meta.glob<IconModule>('@/svgs/*.svg', { as: 'component-solid' })
 
 let iconList = Object.entries(modules).map(function ([key, value]) {
   return { name: key, SvgComponent: lazy(value) }
