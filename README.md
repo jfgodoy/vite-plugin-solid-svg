@@ -33,13 +33,13 @@ export default defineConfig({
 })
 ```
 
-```json
+```jsonc
 // tsconfig.json
 "compilerOptions": {
   "types": [
     "vite/client",
     "vite-plugin-solid-svg/types",
-    // Use vite-plugin-solid-svg/types-default together with `defaultAsComponent`
+    // Use vite-plugin-solid-svg/types-component-solid together with `defaultAsComponent`
   ],
 
 },

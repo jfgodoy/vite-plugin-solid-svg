@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-solid-svg",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Import SVG files as Solid.js Components",
   "keywords": [
     "vite-plugin",
@@ -28,7 +28,7 @@
   "files": [
     "./dist",
     "./types.d.ts",
-    "./types-default.d.ts"
+    "./types-component-solid.d.ts"
   ],
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.mjs",
