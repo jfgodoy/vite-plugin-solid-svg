@@ -1,6 +1,9 @@
 # Change Log
 
-## [0.6.1] - 2023-03-01
+## [0.6.2] - 2023-06-04
+- Add typescript defenition for `defaultAsComponent` case.
+
+## [0.6.1] - 2022-11-18
 - replace svg comments with jsx comments
 
 ## [0.6.0] - 2022-11-04
