@@ -33,16 +33,36 @@ export default defineConfig({
 })
 ```
 
+#### typescript
+
+vite adds its own definition for `"*.svg"` and defines them as `string`. As far as I know this cannot be overridden.
+So we have two options: put our types before those of vite, or use imports with querystring.
+
+If you are using `defaultAsComponent` which is the default, you need to put our types definition before vite in the tsconfig.
+```jsonc
+// tsconfig.json
+"compilerOptions": {
+  "types": [
+    "vite-plugin-solid-svg/types-component-solid"
+    "vite/client",
+  ],
+},
+```
+if you change to `defaultAsComponent=false`, you should use a different type definition that only identifies an svg import as a solid component when it matches the querystring. And in this case, it doesn't matter if you put it before or after `"vite/client"`
+
 ```jsonc
 // tsconfig.json
 "compilerOptions": {
   "types": [
     "vite/client",
-    "vite-plugin-solid-svg/types",
-    // Use vite-plugin-solid-svg/types-component-solid together with `defaultAsComponent`
+    "vite-plugin-solid-svg/types"
   ],
-
 },
+```
+
+```ts
+import MyIcon from './my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
+import MyIcon from './my-icon.svg?component-solid';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
 ```
 
 #### Options
@@ -110,16 +130,6 @@ const App = () => {
 };
 
 export default App;
-```
-
-### Typescript considerations
-
-vite add its own definition for `"*.svg"` and it define them as `string`. So far as I know this can't be overrided.
-To propertly have type inference, you must use the imports with querystring.
-
-```ts
-import MyIcon from './my-icon.svg';     // <-- this will match vite module definition, and therefore identified as string
-import MyIcon from './my-icon.svg?component-solid';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
 ```
 
 ### Why
