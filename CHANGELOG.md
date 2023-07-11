@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.3] - 2023-07-10
+- Fix svgo type inference by moving `@types/svgo` from `devDependencies` to `dependencies`
+
 ## [0.6.2] - 2023-06-04
 - Add typescript defenition for `defaultAsComponent` case.
 
