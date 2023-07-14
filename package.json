@@ -15,12 +15,17 @@
   "license": "MIT",
   "author": "Jorge Godoy <godoy.jf@gmail.com>",
   "exports": {
-    "node": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/cjs/index.cjs"
+    "./types": {
+      "types": "./types.d.ts"
     },
-    "import": "./dist/es/index.mjs",
-    "require": "./dist/cjs/index.cjs"
+    "./types-component-solid": {
+      "types": "./types-component-solid.d.ts"
+    },
+    ".": {
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
   },
   "scripts": {
     "build": "rollup -c && tsc"
