@@ -48,14 +48,14 @@ If you are using `defaultAsComponent` which is the default, you need to put our 
   ],
 },
 ```
-if you change to `defaultAsComponent=false`, you should use a different type definition that only identifies an svg import as a solid component when it matches the querystring. And in this case, it doesn't matter if you put it before or after `"vite/client"`
+if you change to `defaultAsComponent=false`, you should use a different type definition that only identifies an svg import as a solid component when it matches the querystring. And in this case, put it before `"vite/client"`
 
 ```jsonc
 // tsconfig.json
 "compilerOptions": {
   "types": [
-    "vite/client",
-    "vite-plugin-solid-svg/types"
+    "vite-plugin-solid-svg/types",
+    "vite/client"
   ],
 },
 ```

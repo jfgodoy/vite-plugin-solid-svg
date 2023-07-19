@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.4] - 2023-07-14
+- Fix `exports` in `package.json`. Correct readme to place typings **before** `vite/client`, order matters.
+
 ## [0.6.3] - 2023-07-10
 - Fix svgo type inference by moving `@types/svgo` from `devDependencies` to `dependencies`
 

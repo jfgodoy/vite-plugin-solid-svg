@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-solid-svg",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Import SVG files as Solid.js Components",
   "keywords": [
     "vite-plugin",
@@ -15,12 +15,17 @@
   "license": "MIT",
   "author": "Jorge Godoy <godoy.jf@gmail.com>",
   "exports": {
-    "node": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/cjs/index.cjs"
+    "./types": {
+      "types": "./types.d.ts"
     },
-    "import": "./dist/es/index.mjs",
-    "require": "./dist/cjs/index.cjs"
+    "./types-component-solid": {
+      "types": "./types-component-solid.d.ts"
+    },
+    ".": {
+      "import": "./dist/es/index.mjs",
+      "require": "./dist/cjs/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
   },
   "scripts": {
     "build": "rollup -c && tsc"
