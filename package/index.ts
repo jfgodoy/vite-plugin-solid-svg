@@ -77,7 +77,7 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
     async load(id) {
       const [path, qs] = id.split('?')
 
-      if (!path.endsWith('svg')) {
+      if (!path.endsWith('.svg')) {
         return null
       }
 
@@ -95,7 +95,7 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
 
     transform(source, id, transformOptions) {
       const [path, qs] = id.split('?')
-      if (path.endsWith('svg') && shouldProcess(qs)) {
+      if (path.endsWith('.svg') && shouldProcess(qs)) {
         return solidPlugin.transform!.bind(this)(source, `${path}.tsx`, transformOptions)
       }
     },
