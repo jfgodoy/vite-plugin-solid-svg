@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/svgo':
+        specifier: ^2.6.4
+        version: 2.6.4
       svgo:
         specifier: ^2.3.1
         version: 2.8.0
@@ -21,9 +24,6 @@ importers:
       '@rollup/plugin-babel':
         specifier: ^6.0.2
         version: 6.0.2(@babel/core@7.19.6)(rollup@2.77.2)
-      '@types/svgo':
-        specifier: ^2.6.4
-        version: 2.6.4
       eslint:
         specifier: ^7.32.0
         version: 7.32.0
@@ -744,13 +744,12 @@ packages:
 
   /@types/node@18.11.3:
     resolution: {integrity: sha512-fNjDQzzOsZeKZu5NATgXUPsaFaTxeRgFXoosrHivTl8RGeV733OLawXsGfEk9a8/tySyZUyiZ6E8LcjPFZ2y1A==}
-    dev: true
 
   /@types/svgo@2.6.4:
     resolution: {integrity: sha512-l4cmyPEckf8moNYHdJ+4wkHvFxjyW6ulm9l4YGaOxeyBWPhBOT0gvni1InpFPdzx1dKf/2s62qGITwxNWnPQng==}
     dependencies:
       '@types/node': 18.11.3
-    dev: true
+    dev: false
 
   /@zkochan/rimraf@2.1.2:
     resolution: {integrity: sha512-Lc2oK51J6aQWcLWTloobJun5ZF41BbTDdLvE+aMcexoVWFoFqvZmnZoyXR2IZk6NJEVoZW8tjgtvQLfTsmRs2Q==}
