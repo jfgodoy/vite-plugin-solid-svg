@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.5] - 2023-10-09
+- Fix loading pages that ends with svg. See issue #40.
+
 ## [0.6.4] - 2023-07-14
 - Fix `exports` in `package.json`. Correct readme to place typings **before** `vite/client`, order matters.
 
