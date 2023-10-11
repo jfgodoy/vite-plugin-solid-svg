@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.7.0] - 2023-10-10
+- update dependencies
+
+### ***breaking changes***
+- The minimal required Node version is now 18.0.0
+- The minimal required vite version is now 4
+- The svgo package has been updated to version 3. If you are using a custom configuration, please refer to its documentation for any necessary updates.
+
 ## [0.6.5] - 2023-10-09
 - Fix loading pages that ends with svg. See issue #40.
 
