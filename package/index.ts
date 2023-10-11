@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { optimize, loadConfig, OptimizeOptions } from 'svgo'
+import { optimize, loadConfig, type Config as OptimizeOptions } from 'svgo'
 import type { Plugin, ResolvedConfig } from 'vite'
 
 type CompilerOptions = {
@@ -30,7 +30,7 @@ async function compileSvg(source: string, compilerOptions: CompilerOptions) {
   return `export default (props = {}) => ${svgWithProps}`
 }
 
-async function optimizeSvg(content: string | Buffer, path: string, svgoConfig?: OptimizeOptions) {
+async function optimizeSvg(content: string, path: string, svgoConfig?: OptimizeOptions) {
   const config = svgoConfig || (await loadConfig())
   if (config && config.datauri) {
     throw new Error(
@@ -38,8 +38,7 @@ async function optimizeSvg(content: string | Buffer, path: string, svgoConfig?: 
     )
   }
   const result = optimize(content, Object.assign({}, config, { path }))
-  if ('data' in result) return result.data
-  else if (result.modernError) throw result.modernError
+  return result.data
 }
 
 /* how this plugin works:
@@ -96,7 +95,8 @@ export default function (options: SolidSVGPluginOptions = {}): Plugin {
     transform(source, id, transformOptions) {
       const [path, qs] = id.split('?')
       if (path.endsWith('.svg') && shouldProcess(qs)) {
-        return solidPlugin.transform!.bind(this)(source, `${path}.tsx`, transformOptions)
+        const transformFn = typeof solidPlugin.transform === 'function' ? solidPlugin.transform : solidPlugin.transform.handler;
+        return transformFn.bind(this)(source, `${path}.tsx`, transformOptions)
       }
     },
   }

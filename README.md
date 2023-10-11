@@ -10,7 +10,7 @@
 
 #### Currently supported Vite version:
 
-<p><code>2.4.4 or above</code></p>
+<p><code>4 or above</code></p>
 
 ### Install
 
