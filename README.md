@@ -65,6 +65,20 @@ import MyIcon from './my-icon.svg';     // <-- this will match vite module defin
 import MyIcon from './my-icon.svg?component-solid';     // <-- this will match the definition in this plugin, and therefore identified as Solid Component
 ```
 
+When using Typescript and Vite ^5.x, you have the option to only reference the `vite-plugin-solid-svg` inside your `vite.config.mjs` file. This will remove any Typescript error in your TSX files and you will not be required to include this plugin in the `"types"` section of your `tsconfig.json` file.
+
+```ts
+// vite.config.mjs
+/// <reference types="vite-plugin-solid-svg/types-component-solid" />
+import solid from "vite-plugin-solid";
+import svg from 'vite-plugin-solid-svg'
+import { defineConfig } from "vite";
+
+export default defineConfig({
+  plugins: [solid(), svg()]
+});
+```
+
 #### Options
 
 ```js
