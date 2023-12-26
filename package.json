@@ -14,6 +14,7 @@
   "repository": "jfgodoy/vite-plugin-solid-svg",
   "license": "MIT",
   "author": "Jorge Godoy <godoy.jf@gmail.com>",
+  "type": "module",
   "exports": {
     "./types": {
       "types": "./types.d.ts"
@@ -22,34 +23,26 @@
       "types": "./types-component-solid.d.ts"
     },
     ".": {
-      "import": "./dist/es/index.mjs",
-      "require": "./dist/cjs/index.cjs",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     }
   },
   "scripts": {
-    "build": "rollup -c && tsc"
+    "build": "tsup package/index.ts --format esm,cjs --dts --clean --target=node18"
   },
   "files": [
     "./dist",
     "./types.d.ts",
     "./types-component-solid.d.ts"
   ],
-  "main": "./dist/cjs/index.cjs",
-  "module": "./dist/es/index.mjs",
-  "types": "./dist/index.d.ts",
   "dependencies": {
     "svgo": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.0",
-    "@babel/preset-typescript": "^7.23.0",
-    "@rollup/plugin-babel": "^6.0.4",
     "eslint": "^8.51.0",
     "prettier": "^3.0.3",
-    "rollup": "4",
-    "rollup-plugin-delete": "^2.0.0",
     "solid-js": "^1.4.7",
+    "tsup": "^8.0.1",
     "typescript": "^5.2.2",
     "vite": "^4"
   },
