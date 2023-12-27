@@ -36,18 +36,18 @@
     "./types-component-solid.d.ts"
   ],
   "dependencies": {
-    "svgo": "^3.0.2"
+    "svgo": "^3.1.0"
   },
   "devDependencies": {
-    "eslint": "^8.51.0",
-    "prettier": "^3.0.3",
-    "solid-js": "^1.4.7",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "solid-js": "^1.8.7",
     "tsup": "^8.0.1",
-    "typescript": "^5.2.2",
-    "vite": "^4"
+    "typescript": "^5.3.3",
+    "vite": "^5"
   },
   "peerDependencies": {
     "solid-js": "^1",
-    "vite": "^4"
+    "vite": ">=4"
   }
 }

@@ -3,11 +3,11 @@ import { render } from 'solid-js/web'
 import './index.css'
 import { lazy, For } from 'solid-js'
 import type { Component, JSX } from 'solid-js'
-import CircleIcon from '@/svgs/circle.svg?component-solid'
-import rectIconUrl from '@/svgs/rect.svg?url'
+import CircleIcon from './svgs/circle.svg?component-solid'
+import rectIconUrl from './svgs/rect.svg?url'
 
 type IconModule = {default: Component<JSX.SvgSVGAttributes<SVGSVGElement>>}
-const modules = import.meta.glob<IconModule>('@/svgs/*.svg', { as: 'component-solid' })
+const modules = import.meta.glob<IconModule>('./svgs/*.svg', { as: 'component-solid' })
 
 const icons = Object.entries(modules).map(([key, value]) => {
   return { name: key, SvgComponent: lazy(value) }
