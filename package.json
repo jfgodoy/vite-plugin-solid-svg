@@ -15,6 +15,7 @@
   "license": "MIT",
   "author": "Jorge Godoy <godoy.jf@gmail.com>",
   "type": "module",
+  "types": "./dist/index.d.ts",
   "exports": {
     "./types": {
       "types": "./types.d.ts"
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "eslint": "^8.56.0",
+    "@types/node": "^20.11.30",
     "prettier": "^3.1.1",
     "solid-js": "^1.8.7",
     "tsup": "^8.0.1",
