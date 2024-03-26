@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.1] - 2024-03-25
+- fix typescript for node10 moduleResolution
+
 ## [0.8.0] - 2023-12-27
 
 - allow vite 5 as peer dependency
